@@ -123,3 +123,104 @@ RUN mkdir -p $ANDROID_HOME/licenses/ && \
         chmod +x $ANDROID_HOME/tools/android && \
         (while [ 1 ]; do sleep 5; echo y; done) | ${ANDROID_HOME}/tools/android update sdk -u -a -t ${SDK_PACKAGES}
 
+		
+		
+		
+RUN touch ~/.android/repositories.cfg
+RUN sdkmanager "platform-tools"
+
+# SDKs
+# Please keep these in descending order!
+RUN sdkmanager "platforms;android-26"
+RUN sdkmanager "platforms;android-25"
+RUN sdkmanager "platforms;android-24"
+RUN sdkmanager "platforms;android-23"
+RUN sdkmanager "platforms;android-22"
+RUN sdkmanager "platforms;android-21"
+RUN sdkmanager "platforms;android-20"
+RUN sdkmanager "platforms;android-19"
+RUN sdkmanager "platforms;android-18"
+RUN sdkmanager "platforms;android-17"
+RUN sdkmanager "platforms;android-16"
+
+# build tools
+# Please keep these in descending order!
+RUN sdkmanager "build-tools;26.0.0"
+RUN sdkmanager "build-tools;25.0.2"
+RUN sdkmanager "build-tools;25.0.1"
+RUN sdkmanager "build-tools;25.0.0"
+RUN sdkmanager "build-tools;24.0.3"
+RUN sdkmanager "build-tools;24.0.2"
+RUN sdkmanager "build-tools;24.0.1"
+RUN sdkmanager "build-tools;24.0.0"
+RUN sdkmanager "build-tools;23.0.3"
+RUN sdkmanager "build-tools;23.0.2"
+RUN sdkmanager "build-tools;23.0.1"
+RUN sdkmanager "build-tools;23.0.0"
+RUN sdkmanager "build-tools;22.0.1"
+RUN sdkmanager "build-tools;22.0.0"
+RUN sdkmanager "build-tools;21.1.2"
+RUN sdkmanager "build-tools;21.1.1"
+RUN sdkmanager "build-tools;21.1.0"
+RUN sdkmanager "build-tools;21.0.2"
+RUN sdkmanager "build-tools;21.0.1"
+RUN sdkmanager "build-tools;21.0.0"
+RUN sdkmanager "build-tools;20.0.0"
+RUN sdkmanager "build-tools;19.1.0"
+RUN sdkmanager "build-tools;19.0.3"
+RUN sdkmanager "build-tools;19.0.2"
+RUN sdkmanager "build-tools;19.0.1"
+RUN sdkmanager "build-tools;19.0.0"
+
+# Android System Images, for emulators
+# Please keep these in descending order!
+#RUN sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
+#RUN sdkmanager "system-images;android-24;default;armeabi-v7a"
+#RUN sdkmanager "system-images;android-22;default;armeabi-v7a"
+#RUN sdkmanager "system-images;android-21;default;armeabi-v7a"
+#RUN sdkmanager "system-images;android-19;default;armeabi-v7a"
+#RUN sdkmanager "system-images;android-18;default;armeabi-v7a"
+#RUN sdkmanager "system-images;android-17;default;armeabi-v7a"
+#RUN sdkmanager "system-images;android-16;default;armeabi-v7a"
+
+# Extras
+RUN sdkmanager "extras;google;m2repository"
+RUN sdkmanager "extras;google;auto"
+RUN sdkmanager "extras;google;market_apk_expansion"
+RUN sdkmanager "extras;google;market_licensing"
+RUN sdkmanager "extras;google;play_billing"
+RUN sdkmanager "extras;google;simulators"
+RUN sdkmanager "extras;google;webdriver"
+RUN sdkmanager "extras;google;google_play_services"
+
+# Constraint Layout
+# Please keep these in descending order!
+RUN sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
+RUN sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.1"
+
+# google apis
+# Please keep these in descending order!
+RUN sdkmanager "add-ons;addon-google_apis-google-24"
+RUN sdkmanager "add-ons;addon-google_apis-google-23"
+RUN sdkmanager "add-ons;addon-google_apis-google-22"
+RUN sdkmanager "add-ons;addon-google_apis-google-21"
+RUN sdkmanager "add-ons;addon-google_apis-google-19"
+RUN sdkmanager "add-ons;addon-google_apis-google-18"
+RUN sdkmanager "add-ons;addon-google_apis-google-17"
+RUN sdkmanager "add-ons;addon-google_apis-google-16"
+
+#-----------------installing Android NDK------------------------------
+#---------Installing andorid ndk-----------------------------------------
+RUN mkdir /opt/android-ndk-tmp && \
+    cd /opt/android-ndk-tmp && \
+    wget -q https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip && \
+# uncompress
+    unzip  android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip -d $ANDROID_HOME && \
+# move to its final location
+    mv $ANDROID_HOME/android-ndk-r15b/ $ANDROID_HOME/ndk-bundle && \
+# remove temp dir
+    rm -rf /opt/android-ndk-tmp
+
+# ------------------------------------------------------
+VOLUME "/var/lib/build/workspace"
+WORKDIR "/var/lib/build/workspace"
